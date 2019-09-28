@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Oliveshark/Pathworks.svg?branch=master)](https://travis-ci.org/Oliveshark/Pathworks)
+
 # Pathworks
 A tool for running and testing path finding algorithms.
 
