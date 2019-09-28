@@ -44,6 +44,11 @@ You need gradle and stuff, but all that is rather self explanatory.
 Yes please. But start with posting issues and let me get back regarding submissions. In particular
 if you've written a really cool path finding algorithm then please submit it to "flesh out" the base of the tool.
 
+**Important!!**
+If you do contribute and want to add your name to your work then don't forget to add your name to the [CONTRIBUTORS.md](CONTRIBUTORS.md) file.
+This is optional if you want to be private. But it's fun to see who helped out when it's done. I hope there will be time to make this information
+visible within the framework.
+
 ## Hacktoberfest
 Since this coincides nicely with [hacktoberfest](https://hacktoberfest.digitalocean.com/) I decided to make this project
 quite a nice and easy project to get into and start hacking. I'll create tasks for everything and tag them appropriately.
