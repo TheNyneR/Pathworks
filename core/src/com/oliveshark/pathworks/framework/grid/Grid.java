@@ -80,8 +80,17 @@ public class Grid extends Actor implements InputProcessor {
         return false;
     }
 
+    private void reverseCells() {
+        for (Cell[] col : cells) {
+            for (Cell cell : col) {
+                cell.toggleOccupied();
+            }
+        }
+    }
+
     @Override
     public boolean keyTyped(char character) {
+        if (character == 'r') reverseCells();
         return false;
     }
 
