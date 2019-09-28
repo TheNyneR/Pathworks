@@ -1,14 +1,14 @@
 # Pathworks
-A tool for running and testing pathfinding algorithms.
+A tool for running and testing path finding algorithms.
 
 ## Idea
-I was looking around for a decent way to test some cooperative pathfinding algorithms
+I was looking around for a decent way to test some cooperative path finding algorithms
 before implementing them in a game that I'm working on.
 
 Since I couldn't find any decent easy to use ones I figured it couldn't be to hard
 to implement this on my own.
 
-So this program should operate as a testbed for running some pre-written pathfinding algorithms
+So this program should operate as a test bed for running some pre-written path finding algorithms
 as well as implementing your own algorithms and testing them in this graphical environment.
 
 ## Solution
@@ -34,6 +34,16 @@ This project isn't intended to provide an executable to use. Rather it provides 
 project that you may then go to town on testing your algorithms. If you intend to use it in a game it should be
 rather straight forward to 'port' the code to your own project.
 
+## Building
+Follow this link to get details on how to launch a libGDX project in your preferred dev environment.
+You need gradle and stuff, but all that is rather self explanatory.
+
+[Running and debugging libGDX projects](https://libgdx.badlogicgames.com/documentation/gettingstarted/Running%20and%20Debugging.html)
+
 ## Contribute
 Yes please. But start with posting issues and let me get back regarding submissions. In particular
-if you've written a really cool pathfinding algorithm then please submit it to "flesh out" the base of the tool.
+if you've written a really cool path finding algorithm then please submit it to "flesh out" the base of the tool.
+
+## Hacktoberfest
+Since this coincides nicely with [hacktoberfest](https://hacktoberfest.digitalocean.com/) I decided to make this project
+quite a nice and easy project to get into and start hacking. I'll create tasks for everything and tag them appropriately.
