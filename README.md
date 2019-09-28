@@ -1,0 +1,39 @@
+# Pathworks
+A tool for running and testing pathfinding algorithms.
+
+## Idea
+I was looking around for a decent way to test some cooperative pathfinding algorithms
+before implementing them in a game that I'm working on.
+
+Since I couldn't find any decent easy to use ones I figured it couldn't be to hard
+to implement this on my own.
+
+So this program should operate as a testbed for running some pre-written pathfinding algorithms
+as well as implementing your own algorithms and testing them in this graphical environment.
+
+## Solution
+This software should provide an editable grid that makes out the 'play area'
+clicking cells should toggle them between the states 'occupied' and 'walkable'.
+
+There should be an option to add 'agents' to the playing field as well as giving each agent
+a destination that it will try to get to.
+
+When the algorithm runs the agents should move in real-time, not steps. I don't think
+actual collision resolution between walls and agents should be needed since agents shouldn't
+try to walk on occupied space.
+
+However collisions between agents and agents need to be done to
+be able to show when algorithms aren't performing well. It doesn't need to be a pretty solution though.
+
+### Code
+I decided to go with Java and libGDX. In part because I'd like to practice a bit with it. Java is
+more accessible to many devs, I think. Don't quote me on that. It's also easier to setup the project on
+different platforms and easier to define an "algorithm" interface.
+
+This project isn't intended to provide an executable to use. Rather it provides an easy to setup and run
+project that you may then go to town on testing your algorithms. If you intend to use it in a game it should be
+rather straight forward to 'port' the code to your own project.
+
+## Contribute
+Yes please. But start with posting issues and let me get back regarding submissions. In particular
+if you've written a really cool pathfinding algorithm then please submit it to "flesh out" the base of the tool.
