@@ -108,6 +108,10 @@ public class Grid extends Actor implements InputProcessor {
         // libgdx originates coordinates from bottom left so we have to reverse it here
         cellY = GRID_HEIGHT - cellY - 1;
 
+        if (cellX < 0) cellX = 0;
+        else if (cellX >= GRID_WIDTH) cellX = GRID_WIDTH - 1;
+        if (cellY < 0) cellY = 0;
+        else if (cellY >= GRID_HEIGHT) cellY = GRID_HEIGHT - 1;
         return new Position<>(cellX, cellY);
     }
 
