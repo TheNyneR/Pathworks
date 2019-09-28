@@ -1,7 +1,4 @@
 language: java
-
-os: linux
-dist: trusty
 jdk: 
     - openjdk8
     - oraclejdk8
