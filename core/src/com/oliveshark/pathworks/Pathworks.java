@@ -2,15 +2,13 @@ package com.oliveshark.pathworks;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.oliveshark.pathworks.framework.grid.Grid;
 
 public class Pathworks extends ApplicationAdapter {
-	SpriteBatch batch;
-	Grid grid;
+	private SpriteBatch batch;
+	private Grid grid;
 
 	@Override
 	public void create () {

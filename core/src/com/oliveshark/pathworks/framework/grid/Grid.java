@@ -12,12 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
 import com.oliveshark.pathworks.framework.entities.Agent;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
+
+import static com.oliveshark.pathworks.config.Config.*;
+import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getPositionFromGridPosition;
 
 public class Grid extends Actor implements InputProcessor {
-
-    private static int GRID_WIDTH = 32;
-    private static int GRID_HEIGHT = 24;
 
     private Position<Integer> mousePos = new Position<>(0, 0);
     private Cell[][] cells;
@@ -41,8 +43,8 @@ public class Grid extends Actor implements InputProcessor {
 
         // Get random positions based on grid dimensions
         agents = Collections.singletonList(new Agent(
-                new Position<>(new Random().nextInt(GRID_WIDTH) * 32,
-                        new Random().nextInt(GRID_HEIGHT) * 32), new Position<>(0, 0)));
+                new Position<>(new Random().nextInt(GRID_WIDTH) * TILE_DIMENSION,
+                        new Random().nextInt(GRID_HEIGHT) * TILE_DIMENSION), new Position<>(0, 0)));
         agentRenderer = new ShapeRenderer();
     }
 
@@ -50,7 +52,7 @@ public class Grid extends Actor implements InputProcessor {
     public void draw(Batch batch, float parentAlpha) {
         for (int i = 0; i < GRID_WIDTH; ++i) {
             for (int j = 0; j < GRID_HEIGHT; ++j) {
-                cells[i][j].draw(batch, i * 32, j * 32);
+                cells[i][j].draw(batch, i * TILE_DIMENSION, j * TILE_DIMENSION);
             }
         }
 
@@ -75,7 +77,7 @@ public class Grid extends Actor implements InputProcessor {
             }
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(new Color(1.0f, 1.0f, 1.0f, 0.3f));
-            shapeRenderer.rect(mousePos.x * 32, mousePos.y * 32, 32, 32);
+            shapeRenderer.rect(mousePos.x, mousePos.y, TILE_DIMENSION, TILE_DIMENSION);
             shapeRenderer.end();
             Gdx.gl.glDisable(GL30.GL_BLEND);
 
@@ -165,7 +167,8 @@ public class Grid extends Actor implements InputProcessor {
     }
 
     private void updateMousePos(int screenX, int screenY) {
-        mousePos = getGridPositionFromScreenPosition(screenX, screenY);
+        Position<Integer> gridPos = getGridPositionFromScreenPosition(screenX, screenY);
+        mousePos = getPositionFromGridPosition(gridPos.x, gridPos.y);
     }
 
     @Override
