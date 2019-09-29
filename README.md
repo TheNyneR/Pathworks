@@ -44,6 +44,10 @@ You need gradle and stuff, but all that is rather self explanatory.
 
 [Running and debugging libGDX projects](https://libgdx.badlogicgames.com/documentation/gettingstarted/Running%20and%20Debugging.html)
 
+**NOTE** I've been unable to compile with any version above java 8. Can't be
+bothered to figure it out. This is a heads up if you run into problems when
+compiling.
+
 ## Contribute
 Yes please. But start with posting issues and let me get back regarding submissions. In particular
 if you've written a really cool path finding algorithm then please submit it to "flesh out" the base of the tool.
