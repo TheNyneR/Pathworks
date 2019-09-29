@@ -11,12 +11,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
 import com.oliveshark.pathworks.framework.entities.Agent;
+import com.oliveshark.pathworks.framework.grid.util.PositionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
 import static com.oliveshark.pathworks.config.Config.*;
+import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getGridPositionFromScreenPosition;
 import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getPositionFromGridPosition;
 
 public class Grid extends Actor implements InputProcessor {
@@ -43,8 +45,10 @@ public class Grid extends Actor implements InputProcessor {
 
         // Get random positions based on grid dimensions
         agents = Collections.singletonList(new Agent(
-                new Position<>(new Random().nextInt(GRID_WIDTH) * TILE_DIMENSION,
-                        new Random().nextInt(GRID_HEIGHT) * TILE_DIMENSION), new Position<>(0, 0)));
+                PositionUtil.getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+                        new Random().nextInt(GRID_HEIGHT)),
+                PositionUtil.getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+                        new Random().nextInt(GRID_HEIGHT))));
         agentRenderer = new ShapeRenderer();
     }
 
@@ -130,21 +134,6 @@ public class Grid extends Actor implements InputProcessor {
         mouseLeftButtonDown = true;
         mouseLeftButtonDownToggle = cell.isOccupied();
         return false;
-    }
-
-    private Position<Integer> getGridPositionFromScreenPosition(int x, int y) {
-        int cellX = (x - (x % 32)) / 32;
-        int cellY = (y - (y % 32)) / 32;
-
-        // Mouse pos originates from the top left corner (like SDL)
-        // libgdx originates coordinates from bottom left so we have to reverse it here
-        cellY = GRID_HEIGHT - cellY - 1;
-
-        if (cellX < 0) cellX = 0;
-        else if (cellX >= GRID_WIDTH) cellX = GRID_WIDTH - 1;
-        if (cellY < 0) cellY = 0;
-        else if (cellY >= GRID_HEIGHT) cellY = GRID_HEIGHT - 1;
-        return new Position<>(cellX, cellY);
     }
 
     @Override
