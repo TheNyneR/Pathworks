@@ -11,10 +11,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
 
-public class Grid extends Actor implements InputProcessor {
+import static com.oliveshark.pathworks.config.Config.*;
+import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getGridPositionFromScreenPosition;
+import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getPositionFromGridPosition;
 
-    private static int GRID_WIDTH = 32;
-    private static int GRID_HEIGHT = 24;
+public class Grid extends Actor implements InputProcessor {
 
     private Position<Integer> mousePos = new Position<>(0, 0);
     private Cell[][] cells;
@@ -39,7 +40,7 @@ public class Grid extends Actor implements InputProcessor {
     public void draw(Batch batch, float parentAlpha) {
         for (int i = 0; i < GRID_WIDTH; ++i) {
             for (int j = 0; j < GRID_HEIGHT; ++j) {
-                cells[i][j].draw(batch, i*32, j*32);
+                cells[i][j].draw(batch, i*TILE_DIMENSION, j*TILE_DIMENSION);
             }
         }
 
@@ -55,7 +56,7 @@ public class Grid extends Actor implements InputProcessor {
             }
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(new Color(1.0f, 1.0f, 1.0f, 0.3f));
-            shapeRenderer.rect(mousePos.x * 32, mousePos.y * 32, 32, 32);
+            shapeRenderer.rect(mousePos.x, mousePos.y, TILE_DIMENSION, TILE_DIMENSION);
             shapeRenderer.end();
             Gdx.gl.glDisable(GL30.GL_BLEND);
 
@@ -109,21 +110,6 @@ public class Grid extends Actor implements InputProcessor {
         return false;
     }
 
-    private Position<Integer> getGridPositionFromScreenPosition(int x, int y) {
-        int cellX = (x - (x % 32))/32;
-        int cellY = (y - (y % 32))/32;
-
-        // Mouse pos originates from the top left corner (like SDL)
-        // libgdx originates coordinates from bottom left so we have to reverse it here
-        cellY = GRID_HEIGHT - cellY - 1;
-
-        if (cellX < 0) cellX = 0;
-        else if (cellX >= GRID_WIDTH) cellX = GRID_WIDTH - 1;
-        if (cellY < 0) cellY = 0;
-        else if (cellY >= GRID_HEIGHT) cellY = GRID_HEIGHT - 1;
-        return new Position<>(cellX, cellY);
-    }
-
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (button != Input.Buttons.LEFT)
@@ -144,7 +130,8 @@ public class Grid extends Actor implements InputProcessor {
     }
 
     private void updateMousePos(int screenX, int screenY) {
-        mousePos = getGridPositionFromScreenPosition(screenX, screenY);
+        Position<Integer> gridPos = getGridPositionFromScreenPosition(screenX, screenY);
+        mousePos = getPositionFromGridPosition(gridPos.x, gridPos.y);
     }
 
     @Override
