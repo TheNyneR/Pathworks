@@ -10,6 +10,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
+import com.oliveshark.pathworks.framework.entities.Agent;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
 
 import static com.oliveshark.pathworks.config.Config.*;
 import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getGridPositionFromScreenPosition;
@@ -20,6 +25,8 @@ public class Grid extends Actor implements InputProcessor {
     private Position<Integer> mousePos = new Position<>(0, 0);
     private Cell[][] cells;
     private Texture tileTexture;
+    private Collection<Agent> agents;
+    private ShapeRenderer agentRenderer;
 
     private boolean mouseLeftButtonDown = false;
     private boolean mouseLeftButtonDownToggle = false;
@@ -34,15 +41,32 @@ public class Grid extends Actor implements InputProcessor {
             for (int j = 0; j < GRID_HEIGHT; ++j) cells[i][j] = new Cell(tileTexture);
         }
         Gdx.input.setInputProcessor(this);
+
+        // Get random positions based on grid dimensions
+        agents = Collections.singletonList(new Agent(
+                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+                        new Random().nextInt(GRID_HEIGHT)),
+                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+                        new Random().nextInt(GRID_HEIGHT))));
+        agentRenderer = new ShapeRenderer();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         for (int i = 0; i < GRID_WIDTH; ++i) {
             for (int j = 0; j < GRID_HEIGHT; ++j) {
-                cells[i][j].draw(batch, i*TILE_DIMENSION, j*TILE_DIMENSION);
+                cells[i][j].draw(batch, i * TILE_DIMENSION, j * TILE_DIMENSION);
             }
         }
+
+        // Render agents
+        batch.end();
+        agentRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (Agent agent : agents) {
+            agent.draw(agentRenderer);
+        }
+        agentRenderer.end();
+        batch.begin();
 
         // Draw the mouse grid indicator
         if (mousePos.x != 0 || mousePos.y != 0) {
@@ -62,6 +86,7 @@ public class Grid extends Actor implements InputProcessor {
 
             batch.begin();
         }
+
     }
 
     @Override

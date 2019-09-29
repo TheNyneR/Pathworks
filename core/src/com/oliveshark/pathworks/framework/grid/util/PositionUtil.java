@@ -7,8 +7,8 @@ import static com.oliveshark.pathworks.config.Config.*;
 public class PositionUtil {
 
     public static Position<Integer> getGridPositionFromScreenPosition(int x, int y) {
-        int cellX = (x - (x % TILE_DIMENSION))/TILE_DIMENSION;
-        int cellY = (y - (y % TILE_DIMENSION))/TILE_DIMENSION;
+        int cellX = (x - (x % TILE_DIMENSION)) / TILE_DIMENSION;
+        int cellY = (y - (y % TILE_DIMENSION)) / TILE_DIMENSION;
 
         // Mouse pos originates from the top left corner (like SDL)
         // libgdx originates coordinates from bottom left so we have to reverse it here
