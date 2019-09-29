@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/Oliveshark/Pathworks.svg?branch=master)](https://travis-ci.org/Oliveshark/Pathworks)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/038e2e56004d41b48866b61109a93ef9)](https://www.codacy.com/manual/LiquidityC/Pathworks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Oliveshark/Pathworks&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/oliveshark/pathworks/badge)](https://www.codefactor.io/repository/github/oliveshark/pathworks)
 
 # Pathworks
 A tool for running and testing path finding algorithms.
