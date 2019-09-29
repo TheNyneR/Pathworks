@@ -8,10 +8,10 @@ import java.util.Random;
 
 public class Agent {
 
-    public Position<Integer> position;
-    public Position<Integer> destination;
-    public float velocity = 1.0f;
-    public Color color;
+    private Position<Integer> position;
+    private Position<Integer> destination;
+    private float velocity = 0.0f;
+    private final Color color;
 
     public Agent(Position<Integer> position, Position<Integer> destination) {
         color = generateRandomColor();
