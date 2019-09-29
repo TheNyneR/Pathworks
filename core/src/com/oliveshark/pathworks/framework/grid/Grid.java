@@ -3,6 +3,8 @@ package com.oliveshark.pathworks.framework.grid;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,10 +19,17 @@ public class Grid extends Actor implements InputProcessor {
     private static int GRID_WIDTH = 32;
     private static int GRID_HEIGHT = 24;
 
+    private Position<Integer> mousePos = new Position<>(0, 0);
     private Cell[][] cells;
     private Texture tileTexture;
     private Collection<Agent> agents;
     private ShapeRenderer agentRenderer;
+
+    private boolean mouseLeftButtonDown = false;
+    private boolean mouseLeftButtonDownToggle = false;
+
+    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private boolean shapeRendererMatrixSet = false;
 
     public Grid() {
         tileTexture = new Texture(Gdx.files.internal("tiles.png"));
@@ -53,6 +62,26 @@ public class Grid extends Actor implements InputProcessor {
         }
         agentRenderer.end();
         batch.begin();
+
+        // Draw the mouse grid indicator
+        if (mousePos.x != 0 || mousePos.y != 0) {
+            batch.end();
+
+            Gdx.gl.glEnable(GL30.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+            if (!shapeRendererMatrixSet) {
+                shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+                shapeRendererMatrixSet = true;
+            }
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(new Color(1.0f, 1.0f, 1.0f, 0.3f));
+            shapeRenderer.rect(mousePos.x * 32, mousePos.y * 32, 32, 32);
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL30.GL_BLEND);
+
+            batch.begin();
+        }
+
     }
 
     @Override
@@ -72,8 +101,17 @@ public class Grid extends Actor implements InputProcessor {
         return false;
     }
 
+    private void reverseCells() {
+        for (Cell[] col : cells) {
+            for (Cell cell : col) {
+                cell.toggleOccupied();
+            }
+        }
+    }
+
     @Override
     public boolean keyTyped(char character) {
+        if (character == 'r') reverseCells();
         return false;
     }
 
@@ -100,11 +138,12 @@ public class Grid extends Actor implements InputProcessor {
         // libgdx originates coordinates from bottom left so we have to reverse it here
         cellY = GRID_HEIGHT - cellY - 1;
 
+        if (cellX < 0) cellX = 0;
+        else if (cellX >= GRID_WIDTH) cellX = GRID_WIDTH - 1;
+        if (cellY < 0) cellY = 0;
+        else if (cellY >= GRID_HEIGHT) cellY = GRID_HEIGHT - 1;
         return new Position<>(cellX, cellY);
     }
-
-    private boolean mouseLeftButtonDown = false;
-    private boolean mouseLeftButtonDownToggle = false;
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -121,11 +160,17 @@ public class Grid extends Actor implements InputProcessor {
 
         Position<Integer> cellPos = getGridPositionFromScreenPosition(screenX, screenY);
         cells[cellPos.x][cellPos.y].setOccupied(mouseLeftButtonDownToggle);
+        updateMousePos(screenX, screenY);
         return false;
+    }
+
+    private void updateMousePos(int screenX, int screenY) {
+        mousePos = getGridPositionFromScreenPosition(screenX, screenY);
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        updateMousePos(screenX, screenY);
         return false;
     }
 
