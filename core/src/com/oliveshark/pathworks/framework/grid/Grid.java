@@ -5,8 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
+import com.oliveshark.pathworks.framework.entities.Agent;
+
+import java.util.*;
 
 public class Grid extends Actor implements InputProcessor {
 
@@ -15,6 +19,8 @@ public class Grid extends Actor implements InputProcessor {
 
     private Cell[][] cells;
     private Texture tileTexture;
+    private Collection<Agent> agents;
+    private ShapeRenderer agentRenderer;
 
     public Grid() {
         tileTexture = new Texture(Gdx.files.internal("tiles.png"));
@@ -23,15 +29,30 @@ public class Grid extends Actor implements InputProcessor {
             for (int j = 0; j < GRID_HEIGHT; ++j) cells[i][j] = new Cell(tileTexture);
         }
         Gdx.input.setInputProcessor(this);
+
+        // Get random positions based on grid dimensions
+        agents = Collections.singletonList(new Agent(
+                new Position<>(new Random().nextInt(GRID_WIDTH) * 32,
+                        new Random().nextInt(GRID_HEIGHT) * 32), new Position<>(0, 0)));
+        agentRenderer = new ShapeRenderer();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         for (int i = 0; i < GRID_WIDTH; ++i) {
             for (int j = 0; j < GRID_HEIGHT; ++j) {
-                cells[i][j].draw(batch, i*32, j*32);
+                cells[i][j].draw(batch, i * 32, j * 32);
             }
         }
+
+        // Render agents
+        batch.end();
+        agentRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (Agent agent : agents) {
+            agent.draw(agentRenderer);
+        }
+        agentRenderer.end();
+        batch.begin();
     }
 
     @Override
@@ -72,8 +93,8 @@ public class Grid extends Actor implements InputProcessor {
     }
 
     private Position<Integer> getGridPositionFromScreenPosition(int x, int y) {
-        int cellX = (x - (x % 32))/32;
-        int cellY = (y - (y % 32))/32;
+        int cellX = (x - (x % 32)) / 32;
+        int cellY = (y - (y % 32)) / 32;
 
         // Mouse pos originates from the top left corner (like SDL)
         // libgdx originates coordinates from bottom left so we have to reverse it here
