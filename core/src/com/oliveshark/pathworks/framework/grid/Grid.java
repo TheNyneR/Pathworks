@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
 import com.oliveshark.pathworks.framework.entities.Agent;
-import com.oliveshark.pathworks.framework.grid.util.PositionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -45,9 +44,9 @@ public class Grid extends Actor implements InputProcessor {
 
         // Get random positions based on grid dimensions
         agents = Collections.singletonList(new Agent(
-                PositionUtil.getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
                         new Random().nextInt(GRID_HEIGHT)),
-                PositionUtil.getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
                         new Random().nextInt(GRID_HEIGHT))));
         agentRenderer = new ShapeRenderer();
     }

@@ -10,7 +10,7 @@ public class Agent {
 
     private Position<Integer> position;
     private Position<Integer> destination;
-    private float velocity = 0.0f;
+//    private float velocity = 0.0f;
     private final Color color;
 
     public Agent(Position<Integer> position, Position<Integer> destination) {
