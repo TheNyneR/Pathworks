@@ -14,8 +14,6 @@ import com.oliveshark.pathworks.framework.entities.Agent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
 
 import static com.oliveshark.pathworks.config.Config.*;
 import static com.oliveshark.pathworks.framework.grid.util.PositionUtil.getGridPositionFromScreenPosition;

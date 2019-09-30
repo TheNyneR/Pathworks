@@ -6,7 +6,8 @@ import com.oliveshark.pathworks.core.Position;
 
 import java.util.Random;
 
-import static com.oliveshark.pathworks.config.Config.*;
+import static com.oliveshark.pathworks.config.Config.TILE_DIMENSION;
+import static com.oliveshark.pathworks.config.Config.GRID_WIDTH;
 
 public class Agent {
 
