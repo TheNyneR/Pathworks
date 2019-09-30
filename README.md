@@ -49,8 +49,8 @@ bothered to figure it out. This is a heads up if you run into problems when
 compiling.
 
 ## Contribute
-Yes please. But start with posting issues and let me get back regarding submissions. In particular
-if you've written a really cool path finding algorithm then please submit it to "flesh out" the base of the tool.
+Yes please. You are welcome to create issues and begin work on them or pick one from the list of existing issues.
+More details can be found here: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 **Important!!**
 If you do contribute and want to add your name to your work then don't forget to add your name to the [CONTRIBUTORS.md](CONTRIBUTORS.md) file.
