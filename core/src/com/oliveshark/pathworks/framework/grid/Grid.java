@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.oliveshark.pathworks.core.Position;
 import com.oliveshark.pathworks.framework.entities.Agent;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
@@ -27,9 +28,11 @@ public class Grid extends Actor implements InputProcessor {
     private Texture tileTexture;
     private Collection<Agent> agents;
     private ShapeRenderer agentRenderer;
+    private Agent currentAgent = null;
 
     private boolean mouseLeftButtonDown = false;
     private boolean mouseLeftButtonDownToggle = false;
+    private boolean secondRightClick = false;
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
     private boolean shapeRendererMatrixSet = false;
@@ -43,11 +46,12 @@ public class Grid extends Actor implements InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         // Get random positions based on grid dimensions
-        agents = Collections.singletonList(new Agent(
-                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
-                        new Random().nextInt(GRID_HEIGHT)),
-                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
-                        new Random().nextInt(GRID_HEIGHT))));
+        agents = new ArrayList<>();
+//        agents = Collections.singletonList(new Agent(
+//                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+//                        new Random().nextInt(GRID_HEIGHT)),
+//                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
+//                        new Random().nextInt(GRID_HEIGHT))));
         agentRenderer = new ShapeRenderer();
     }
 
@@ -122,16 +126,33 @@ public class Grid extends Actor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button != Input.Buttons.LEFT)
-            return true;
-
-        System.out.println("Click at " + screenX + "x" + screenY);
         Position<Integer> cellPos = getGridPositionFromScreenPosition(screenX, screenY);
+        System.out.println("Click at " + screenX + "x" + screenY);
+        System.out.println(String.format("x: %s, y: %s", cellPos.x, cellPos.y));
 
         Cell cell = cells[cellPos.x][cellPos.y];
-        cell.toggleOccupied();
-        mouseLeftButtonDown = true;
-        mouseLeftButtonDownToggle = cell.isOccupied();
+
+        if(button == Input.Buttons.RIGHT){
+
+            if(secondRightClick){
+                currentAgent.setDestination(cellPos);
+                currentAgent = null;
+                secondRightClick = false;
+            }else{
+                currentAgent = new Agent(cellPos);
+                agents.add(currentAgent);
+                secondRightClick = true;
+            }
+            return false;
+        }else if(button == Input.Buttons.LEFT){
+            cell.toggleOccupied();
+            mouseLeftButtonDown = true;
+            mouseLeftButtonDownToggle = cell.isOccupied();
+        }
+        secondRightClick = false;
+        agents.remove(currentAgent);
+        currentAgent = null;
+
         return false;
     }
 
