@@ -120,8 +120,6 @@ public class Grid extends Actor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Position<Integer> cellPos = getGridPositionFromScreenPosition(screenX, screenY);
-        System.out.println("Click at " + screenX + "x" + screenY);
-        System.out.println(String.format("x: %s, y: %s", cellPos.x, cellPos.y));
 
         Cell cell = cells[cellPos.x][cellPos.y];
 

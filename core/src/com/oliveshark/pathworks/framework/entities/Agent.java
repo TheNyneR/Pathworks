@@ -21,12 +21,6 @@ public class Agent {
         this.position = position;
     }
 
-    public Agent(Position<Integer> position, Position<Integer> destination) {
-        color = generateRandomColor();
-        this.position = position;
-        this.destination = destination;
-    }
-
     private Color generateRandomColor() {
         Random random = new Random(System.nanoTime());
         final int colorUpperBound = 256;
@@ -39,22 +33,25 @@ public class Agent {
     public void draw(ShapeRenderer renderer) {
         renderer.setColor(color);
 
-        float posXCenter = position.x * TILE_DIMENSION + GRID_WIDTH / 2;
-        float posYCenter = position.y * TILE_DIMENSION + GRID_WIDTH / 2;
+        int halfWidth = (GRID_WIDTH >> 1);
+
+        float posXCenter = position.x * TILE_DIMENSION + halfWidth;
+        float posYCenter = position.y * TILE_DIMENSION + halfWidth;
 
         // Agent
-        renderer.circle(posXCenter, posYCenter, 16);
+        renderer.circle(posXCenter, posYCenter, halfWidth);
 
         if(destination == null){
             return;
         }
 
-        float destXCenter = destination.x * TILE_DIMENSION + GRID_WIDTH / 2;
-        float destYCenter = destination.y * TILE_DIMENSION + GRID_WIDTH / 2;
 
-        Position<Float> triangleTop = new Position<>(destXCenter, destYCenter + 16);
-        Position<Float> triangleLeft = new Position<>(destXCenter - 16, destYCenter - 16);
-        Position<Float> triangleRight = new Position<>(destXCenter + 16, destYCenter - 16);
+        float destXCenter = destination.x * TILE_DIMENSION + halfWidth;
+        float destYCenter = destination.y * TILE_DIMENSION + halfWidth;
+
+        Position<Float> triangleTop = new Position<>(destXCenter, destYCenter + halfWidth);
+        Position<Float> triangleLeft = new Position<>(destXCenter - halfWidth, destYCenter - halfWidth);
+        Position<Float> triangleRight = new Position<>(destXCenter + halfWidth, destYCenter - halfWidth);
 
         // Destination
         renderer.triangle(triangleTop.x, triangleTop.y, triangleLeft.x,
