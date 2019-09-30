@@ -47,11 +47,6 @@ public class Grid extends Actor implements InputProcessor {
 
         // Get random positions based on grid dimensions
         agents = new ArrayList<>();
-//        agents = Collections.singletonList(new Agent(
-//                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
-//                        new Random().nextInt(GRID_HEIGHT)),
-//                getPositionFromGridPosition(new Random().nextInt(GRID_WIDTH),
-//                        new Random().nextInt(GRID_HEIGHT))));
         agentRenderer = new ShapeRenderer();
     }
 
