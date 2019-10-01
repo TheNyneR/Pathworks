@@ -123,19 +123,24 @@ public class Grid extends Actor implements InputProcessor {
 
         Cell cell = cells[cellPos.x][cellPos.y];
 
-        if(button == Input.Buttons.RIGHT){
-
-            if(secondRightClick){
+        if (button == Input.Buttons.RIGHT) {
+            if (cellOccupied(cellPos) || hasAgentOnPosition(cellPos)) {
+                return false;
+            }
+            if (secondRightClick) {
                 currentAgent.setDestination(cellPos);
                 currentAgent = null;
                 secondRightClick = false;
-            }else{
+            } else {
                 currentAgent = new Agent(cellPos);
                 agents.add(currentAgent);
                 secondRightClick = true;
             }
             return false;
-        }else if(button == Input.Buttons.LEFT){
+        } else if (button == Input.Buttons.LEFT) {
+            if (hasAgentOnPosition(cellPos)) {
+                return false;
+            }
             cell.toggleOccupied();
             mouseLeftButtonDown = true;
             mouseLeftButtonDownToggle = cell.isOccupied();
@@ -145,6 +150,19 @@ public class Grid extends Actor implements InputProcessor {
         currentAgent = null;
 
         return false;
+    }
+
+    private boolean hasAgentOnPosition(Position<Integer> agentPos) {
+        for (Agent agent : agents) {
+            if (agentPos.equals(agent.getPosition()) || agentPos.equals(agent.getDestination())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean cellOccupied(Position<Integer> cellPosition) {
+        return cells[cellPosition.x][cellPosition.y].isOccupied();
     }
 
     @Override
@@ -159,8 +177,10 @@ public class Grid extends Actor implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (!mouseLeftButtonDown)
             return true;
-
         Position<Integer> cellPos = getGridPositionFromScreenPosition(screenX, screenY);
+        if (hasAgentOnPosition(cellPos)) {
+            return false;
+        }
         cells[cellPos.x][cellPos.y].setOccupied(mouseLeftButtonDownToggle);
         updateMousePos(screenX, screenY);
         return false;
